@@ -43,13 +43,9 @@ const mostBlogs = (blogs) =>
   {
     let thisAuthor = authorBlogs.find(ab => ab.author === element.author);
     if (thisAuthor)
-    {
       thisAuthor.blogs += 1;
-    }
     else
-    {
       authorBlogs.push({ author: element.author, blogs: 1 });
-    }
   });
   const result = authorBlogs.reduce((value1, value2) =>
   {
@@ -61,9 +57,31 @@ const mostBlogs = (blogs) =>
   return result;
 }
 
+const mostLikes = (blogs) =>
+{
+  const authorLikes = [];
+  blogs.forEach(element =>
+  {
+    let thisAuthor = authorLikes.find(al => al.author === element.author);
+    if (thisAuthor)
+      thisAuthor.likes += element.likes;
+    else
+      authorLikes.push({ author: element.author, likes: element.likes });
+  });
+  const result = authorLikes.reduce((value1, value2) =>
+  {
+    if (value1.likes < value2.likes)
+      return value2;
+    else
+      return value1;
+  });
+  return result;
+}
+
 module.exports = {
   dummy,
   totalLikes,
   favoriteBlog,
-  mostBlogs
+  mostBlogs,
+  mostLikes
 }
