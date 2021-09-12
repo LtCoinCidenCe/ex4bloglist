@@ -36,8 +36,34 @@ const favoriteBlog = (blogs) =>
   return favorite;
 }
 
+const mostBlogs = (blogs) =>
+{
+  const authorBlogs = [];
+  blogs.forEach(element =>
+  {
+    let thisAuthor = authorBlogs.find(ab => ab.author === element.author);
+    if (thisAuthor)
+    {
+      thisAuthor.blogs += 1;
+    }
+    else
+    {
+      authorBlogs.push({ author: element.author, blogs: 1 });
+    }
+  });
+  const result = authorBlogs.reduce((value1, value2) =>
+  {
+    if (value1.blogs < value2.blogs)
+      return value2;
+    else
+      return value1;
+  });
+  return result;
+}
+
 module.exports = {
   dummy,
   totalLikes,
-  favoriteBlog
+  favoriteBlog,
+  mostBlogs
 }
