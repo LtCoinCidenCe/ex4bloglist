@@ -2,10 +2,10 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const morgan = require('morgan');
+require('express-async-errors')
 
 const logger = require('./utils/logger');
 const config = require('./utils/config');
-const Blog = require('./models/blog');
 const blogsRouter = require('./controller/blogs');
 
 const app = express();
