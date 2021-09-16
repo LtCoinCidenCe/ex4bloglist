@@ -43,6 +43,31 @@ describe('exercise 4.9', () =>
   })
 })
 
+describe('exercise 4.10', () =>
+{
+  test('HTTP POST makes a new blog post', async () =>
+  {
+    const newBlog = {
+      title: "Advance wars",
+      author: "Nitendo",
+      url: "https://www.youtube.com/watch?v=fftL_XeK2qU",
+      likes: 3
+    };
+
+    const response = await api.post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/);
+
+    const blogsAtEnd = await helper.blogsInDb();
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1);
+
+    let theNewBlog = blogsAtEnd.pop();
+    delete theNewBlog.id;
+    expect(theNewBlog).toEqual(newBlog);
+  })
+});
+
 afterAll(() =>
 {
   mongoose.connection.close();
