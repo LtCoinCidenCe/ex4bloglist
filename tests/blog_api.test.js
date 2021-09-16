@@ -67,6 +67,28 @@ describe('exercise 4.10', () =>
   })
 });
 
+describe('exercise 4.11', () =>
+{
+  test('missing like is 0', async () =>
+  {
+    const withoutLikes = {
+      title: "Advance wars",
+      author: "Nitendo",
+      url: "https://www.youtube.com/watch?v=fftL_XeK2qU"
+    };
+
+    const response = await api.post('/api/blogs')
+      .send(withoutLikes)
+      .expect(201)
+      .expect('Content-Type', /application\/json/);
+
+    const blogsAtEnd = await helper.blogsInDb();
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1);
+    const theNewBlog = { ...withoutLikes, likes: 0, id: response.body.id };
+    expect(blogsAtEnd).toContainEqual(theNewBlog);
+  })
+})
+
 afterAll(() =>
 {
   mongoose.connection.close();
