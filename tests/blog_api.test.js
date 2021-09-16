@@ -62,9 +62,8 @@ describe('exercise 4.10', () =>
     const blogsAtEnd = await helper.blogsInDb();
     expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1);
 
-    let theNewBlog = blogsAtEnd.pop();
-    delete theNewBlog.id;
-    expect(theNewBlog).toEqual(newBlog);
+    let theNewBlog = { ...newBlog, id: response.body.id };
+    expect(blogsAtEnd).toContainEqual(theNewBlog);
   })
 });
 
