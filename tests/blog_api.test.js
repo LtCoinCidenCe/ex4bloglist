@@ -89,6 +89,21 @@ describe('exercise 4.11', () =>
   })
 })
 
+describe('exercise 4.12', () =>
+{
+  test('title and url properties are missing', async () =>
+  {
+    const notValid = {
+      title: "Advance wars",
+      author: "Nitendo"
+    }
+
+    const response = await api.post('/api/blogs')
+      .send(notValid)
+      .expect(400);
+  })
+})
+
 afterAll(() =>
 {
   mongoose.connection.close();
