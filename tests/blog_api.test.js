@@ -104,6 +104,27 @@ describe('exercise 4.12', () =>
   })
 })
 
+describe('exercise 4.13', () =>
+{
+  test('test delete', async () =>
+  {
+    const response1 = await api.get('/api/blogs');
+
+    const id = response1.body[0].id;
+
+    await api.delete(`/api/blogs/${id}`)
+      .expect(204)
+
+    await api.delete(`/api/blogs/${id}`)
+      .expect(204)
+
+    const response = await api.get('/api/blogs')
+      .expect(200)
+      .expect('Content-Type', /application\/json/);
+    expect(response.body).toHaveLength(helper.initialBlogs.length - 1);
+  })
+})
+
 afterAll(() =>
 {
   mongoose.connection.close();
