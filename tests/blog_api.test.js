@@ -125,6 +125,23 @@ describe('exercise 4.13', () =>
   })
 })
 
+describe('exercise 4.14', () =>
+{
+  test('test update', async () =>
+  {
+    const response1 = await api.get('/api/blogs');
+    const stBlog = response1.body[0];
+
+    let newBlog = { likes: stBlog.likes + 20 };
+    const returned = await api.put(`/api/blogs/${stBlog.id}`)
+      .send(newBlog)
+      .expect(200)
+      .expect('Content-Type', /application\/json/);
+
+    expect(returned.body.likes).toBe(stBlog.likes + 20);
+  })
+})
+
 afterAll(() =>
 {
   mongoose.connection.close();
