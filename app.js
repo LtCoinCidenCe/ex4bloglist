@@ -7,7 +7,8 @@ require('express-async-errors')
 const logger = require('./utils/logger');
 const config = require('./utils/config');
 const blogsRouter = require('./controller/blogs');
-const middleware=require('./utils/middleware')
+const middleware=require('./utils/middleware');
+const userRouter = require('./controller/users');
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.use(express.json());
 app.use(morgan('tiny'));
 
 app.use('/api/blogs', blogsRouter);
+app.use('/api/users', userRouter);
 app.use(middleware.errorHandler);
 
 module.exports = app;
