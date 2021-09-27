@@ -1,22 +1,35 @@
 const blogsRouter = require('express').Router();
 const Blog = require('../models/blog');
+const User = require('../models/user');
 
 blogsRouter.get('/', async (request, response) =>
 {
-  const blogs = await Blog.find({});
+  const blogs = await Blog.find({}).populate('user', { username: true, name: true });
   response.json(blogs);
 })
+
+const getRandomInt = (max) => Math.floor(Math.random() * max);
 
 blogsRouter.post('/', async (request, response) =>
 {
   const body = request.body;
+  // get random user
+  const allUsers = await User.find({});
+  const index = getRandomInt(allUsers.length);
+  const designatedUser = allUsers[index];
+
   const blog = new Blog({
     title: body.title,
     author: body.author,
     url: body.url,
-    likes: body.likes | 0
+    likes: body.likes | 0,
+    user: designatedUser._id // plus user for blog
   });
   const savedBlog = await blog.save();
+  // modify user data
+  designatedUser.blogs = designatedUser.blogs.concat(savedBlog._id);
+  await designatedUser.save();
+
   response.status(201).json(savedBlog);
 })
 
