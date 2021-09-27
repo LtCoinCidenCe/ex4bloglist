@@ -9,6 +9,7 @@ const config = require('./utils/config');
 const blogsRouter = require('./controller/blogs');
 const middleware=require('./utils/middleware');
 const userRouter = require('./controller/users');
+const loginRouter = require('./controller/login');
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.use(morgan('tiny'));
 
 app.use('/api/blogs', blogsRouter);
 app.use('/api/users', userRouter);
+app.use('/api/login', loginRouter);
 app.use(middleware.errorHandler);
 
 module.exports = app;
