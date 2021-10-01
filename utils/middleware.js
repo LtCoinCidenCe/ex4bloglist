@@ -10,7 +10,6 @@ const userExtractor = async (request, response, next) =>
     const decodedToken = jwt.verify(request.token, process.env.SECRET);
     if (decodedToken.id) // type string
     {
-      console.log(typeof decodedToken.id);
       const user = await User.findById(decodedToken.id);
       if (user) // user exists
       {

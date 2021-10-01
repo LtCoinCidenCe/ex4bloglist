@@ -64,13 +64,28 @@ const nonExistingId = async () =>
 const blogsInDb = async () =>
 {
   const blogs = await Blog.find({});
-  return blogs.map(blog => blog.toJSON());
+  // fix user field Object
+  const blogToJson = (blog) =>
+  {
+    // this field doesn't vi*usti change it if in the reversed order
+    let temp = blog.toJSON();
+    temp.user = temp.user.toString();
+    return temp;
+  }
+  return blogs.map(blogToJson);
 }
 
 const usersInDb = async () =>
 {
   const users = await User.find({});
-  return users.map(user => user.toJSON());
+  // fix blogs field Object
+  const userToJson = (user) =>
+  {
+    let temp = user.toJSON();
+    temp.blogs = temp.blogs.map(id => id.toString());
+    return temp;
+  }
+  return users.map(userToJson);
 }
 
 module.exports = {
