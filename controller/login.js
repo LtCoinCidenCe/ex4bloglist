@@ -16,12 +16,11 @@ loginRouter.post('/', async (request, response) =>
     {
       const asiakkaanToken = { username: user.username, id: user._id };
       const token = jwt.sign(asiakkaanToken, process.env.SECRET);
-      response.status(200).send({ token, username: user.username, name: user.name });
+      return response.status(200).send({ token, username: user.username, name: user.name });
     }
   }
   // not ok
-  else
-    return response.status(401).json({ error: 'invalid username or password' });
+  return response.status(401).json({ error: 'invalid username or password' });
 });
 
 module.exports = loginRouter;
